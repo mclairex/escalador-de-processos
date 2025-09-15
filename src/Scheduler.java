@@ -120,4 +120,38 @@ public class Scheduler {
 
         System.out.println(" Nenhum processo disponível para execução no escalonador");
     }
+
+    private void executarProcesso(Processo processo) {
+        // Verificar se precisa de recurso pela primeira vez
+        if (processo.recursoNecessario != null && !processo.jaUsouRecurso) {
+            // Primeira vez que solicita o recurso - bloquear
+            processo.jaUsouRecurso = true;
+            listaBloqueados.adicionarNoFinal(processo);
+            System.out.println("🔒 Processo bloqueado por recurso " + processo.recursoNecessario + ": " + processo);
+            return;
+        }
+
+        // Executar processo (diminui ciclos necessários)
+        processo.ciclosNecessarios--;
+        System.out.println("⚡ Processo executado: " + processo);
+
+        // Verificar se o processo terminou
+        if (processo.ciclosNecessarios == 0) {
+            System.out.println("✅ Processo finalizado: P" + processo.id + " (" + processo.nome + ")");
+        } else {
+            // Processo não terminou - reinserir no final da lista original
+            switch(processo.prioridade) {
+                case 1:
+                    listaAltaPrioridade.adicionarNoFinal(processo);
+                    break;
+                case 2:
+                    listaMediaPrioridade.adicionarNoFinal(processo);
+                    break;
+                case 3:
+                    listaBaixaPrioridade.adicionarNoFinal(processo);
+                    break;
+            }
+            System.out.println("🔄 Processo reinserido na lista " + processo.getPrioridadeNome());
+        }
+    }
 }

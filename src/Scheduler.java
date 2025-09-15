@@ -31,4 +31,27 @@ public class Scheduler {
                 System.out.println("⚠️ Prioridade inválida para processo P" + processo.id);
         }
     }
+
+    public void executarCicloDeCPU() {
+        cicloAtual++;
+        System.out.println("\n=== CICLO " + cicloAtual + " ===");
+
+        // 1. No início de cada ciclo, desbloqueie o processo mais antigo
+        desbloquearProcessoMaisAntigo();
+
+        // 2. Mostrar estado atual das listas
+        mostrarEstadoDasListas();
+
+        // 3. Verificar regra de prevenção de inanição
+        if (contadorCiclosAltaPrioridade >= 5) {
+            System.out.println("🚨 PREVENÇÃO DE INANIÇÃO ATIVADA!");
+            executarProcessoMediaOuBaixa();
+            contadorCiclosAltaPrioridade = 0;
+            return;
+        }
+
+        //Execução Padrão: A -> M -> B
+        executarProximoProcessoDisponivel();
+
+    }
 }

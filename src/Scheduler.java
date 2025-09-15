@@ -54,4 +54,25 @@ public class Scheduler {
         executarProximoProcessoDisponivel();
 
     }
+
+    private void desbloquearProcessoMaisAntigo() {
+        if (!listaBloqueados.isEmpty()) {
+            Processo processo = listaBloqueados.removerDoInicio();
+
+            // Adiciona de volta ao final da sua lista de prioridade original
+            switch(processo.prioridade) {
+                case 1:
+                    listaAltaPrioridade.adicionarNoFinal(processo);
+                    break;
+                case 2:
+                    listaMediaPrioridade.adicionarNoFinal(processo);
+                    break;
+                case 3:
+                    listaBaixaPrioridade.adicionarNoFinal(processo);
+                    break;
+            }
+
+            System.out.println("🔓 Processo desbloqueado: " + processo);
+        }
+    }
 }

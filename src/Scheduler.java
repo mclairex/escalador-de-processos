@@ -13,6 +13,6 @@ public class Scheduler {
         this.listaBaixaPrioridade = new ListaDeProcessos();
         this.listaBloqueados = new ListaDeProcessos();
         this.contadorCiclosAltaPrioridade = 0;
-        this.cicloAtual = 0;
+        this.cicloAtual = 1;
     }
 }

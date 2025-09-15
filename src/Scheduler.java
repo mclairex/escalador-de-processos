@@ -28,7 +28,7 @@ public class Scheduler {
                 listaBaixaPrioridade.adicionarNoFinal(processo);
                 break;
             default:
-                System.out.println("⚠️ Prioridade inválida para processo P" + processo.id);
+                System.out.println(" Prioridade inválida para processo P" + processo.id);
         }
     }
 
@@ -44,7 +44,7 @@ public class Scheduler {
 
         // 3. Verificar regra de prevenção de inanição
         if (contadorCiclosAltaPrioridade >= 5) {
-            System.out.println("🚨 PREVENÇÃO DE INANIÇÃO ATIVADA!");
+            System.out.println(" PREVENÇÃO DE INANIÇÃO ATIVADA!");
             executarProcessoMediaOuBaixa();
             contadorCiclosAltaPrioridade = 0;
             return;
@@ -72,7 +72,52 @@ public class Scheduler {
                     break;
             }
 
-            System.out.println("🔓 Processo desbloqueado: " + processo);
+            System.out.println(" Processo desbloqueado: " + processo);
         }
+    }
+
+    // Executa processo de média ou baixa prioridade (regra anti-inanição)
+    private void executarProcessoMediaOuBaixa() {
+        if (!listaMediaPrioridade.isEmpty()) {
+            Processo processo = listaMediaPrioridade.removerDoInicio();
+            System.out.println(" Executando (anti-inanição) da MÉDIA: " + processo);
+            executarProcesso(processo);
+        } else if (!listaBaixaPrioridade.isEmpty()) {
+            Processo processo = listaBaixaPrioridade.removerDoInicio();
+            System.out.println(" Executando (anti-inanição) da BAIXA: " + processo);
+            executarProcesso(processo);
+        } else {
+            System.out.println(" Nenhum processo de média/baixa prioridade disponível");
+        }
+    }
+
+    // Execução padrão: procura na ordem Alta → Média → Baixa
+    private void executarProximoProcessoDisponivel() {
+        // Tentar Alta prioridade primeiro
+        if (!listaAltaPrioridade.isEmpty()) {
+            Processo processo = listaAltaPrioridade.removerDoInicio();
+            System.out.println(" Executando da ALTA: " + processo);
+            executarProcesso(processo);
+            contadorCiclosAltaPrioridade++;
+            return;
+        }
+
+        // Se não há alta, tentar Média
+        if (!listaMediaPrioridade.isEmpty()) {
+            Processo processo = listaMediaPrioridade.removerDoInicio();
+            System.out.println(" Executando da MÉDIA: " + processo);
+            executarProcesso(processo);
+            return;
+        }
+
+        // Se não há baixa, tentar Baixa
+        if (!listaBaixaPrioridade.isEmpty()) {
+            Processo processo = listaBaixaPrioridade.removerDoInicio();
+            System.out.println(" Executando da BAIXA: " + processo);
+            executarProcesso(processo);
+            return;
+        }
+
+        System.out.println(" Nenhum processo disponível para execução no escalonador");
     }
 }

@@ -154,4 +154,30 @@ public class Scheduler {
             System.out.println(" Processo reinserido na lista " + processo.getPrioridadeNome());
         }
     }
+
+    // Mostra o estado atual de todas as listas
+    private void mostrarEstadoDasListas() {
+        System.out.println("   Estado das listas do escalonador:");
+        System.out.println("   Alta Prioridade: " + listaAltaPrioridade);
+        System.out.println("   Média Prioridade: " + listaMediaPrioridade);
+        System.out.println("   Baixa Prioridade: " + listaBaixaPrioridade);
+        System.out.println("   Bloqueados: " + listaBloqueados);
+        System.out.println("   Contador Alta: " + contadorCiclosAltaPrioridade);
+    }
+
+    // Verifica se ainda há processos para executar
+    public boolean temProcessos() {
+        return !listaAltaPrioridade.isEmpty() ||
+                !listaMediaPrioridade.isEmpty() ||
+                !listaBaixaPrioridade.isEmpty() ||
+                !listaBloqueados.isEmpty();
+    }
+
+    // Getters para que outros membros possam acessar as listas (se necessário)
+    public ListaDeProcessos getListaAltaPrioridade() { return listaAltaPrioridade; }
+    public ListaDeProcessos getListaMediaPrioridade() { return listaMediaPrioridade; }
+    public ListaDeProcessos getListaBaixaPrioridade() { return listaBaixaPrioridade; }
+    public ListaDeProcessos getListaBloqueados() { return listaBloqueados; }
+    public int getCicloAtual() { return cicloAtual; }
 }
+

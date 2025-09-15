@@ -127,7 +127,7 @@ public class Scheduler {
             // Primeira vez que solicita o recurso - bloquear
             processo.jaUsouRecurso = true;
             listaBloqueados.adicionarNoFinal(processo);
-            System.out.println("🔒 Processo bloqueado por recurso " + processo.recursoNecessario + ": " + processo);
+            System.out.println(" Processo bloqueado por recurso " + processo.recursoNecessario + ": " + processo);
             return;
         }
 
@@ -137,7 +137,7 @@ public class Scheduler {
 
         // Verificar se o processo terminou
         if (processo.ciclosNecessarios == 0) {
-            System.out.println("✅ Processo finalizado: P" + processo.id + " (" + processo.nome + ")");
+            System.out.println(" Processo finalizado: P" + processo.id + " (" + processo.nome + ")");
         } else {
             // Processo não terminou - reinserir no final da lista original
             switch(processo.prioridade) {
@@ -151,7 +151,7 @@ public class Scheduler {
                     listaBaixaPrioridade.adicionarNoFinal(processo);
                     break;
             }
-            System.out.println("🔄 Processo reinserido na lista " + processo.getPrioridadeNome());
+            System.out.println(" Processo reinserido na lista " + processo.getPrioridadeNome());
         }
     }
 }

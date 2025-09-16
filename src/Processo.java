@@ -3,14 +3,16 @@ public class Processo {
    private String nome;
    private int prioridade;
    private int ciclosNecessarios;
-   private String recursosNecessarios;
+   private String recursoNecessario;
+   private boolean jaUsouRecurso;
 
-   public Processo(int id, String nome, int prioridade, int ciclosNecessarios){
+   public Processo(int id, String nome, int prioridade, int ciclosNecessarios, boolean jaUsouRecurso) {
        this.id = id;
        this.nome = nome;
        this.prioridade = prioridade;
        this.ciclosNecessarios = ciclosNecessarios;
-       this.recursosNecessarios = null; //Pode ser null
+       this.recursoNecessario = null; 
+       this.jaUsouRecurso = jaUsouRecurso; 
    }
 
     public int getId() {
@@ -45,12 +47,20 @@ public class Processo {
         this.ciclosNecessarios = ciclosNecessarios;
     }
 
-    public String getRecursosNecessarios() {
-        return recursosNecessarios;
+    public String getRecursoNecessario() {
+        return recursoNecessario;
     }
 
-    public void setRecursosNecessarios(String recursosNecessarios) {
-        this.recursosNecessarios = recursosNecessarios;
+    public void setRecursoNecessario(String recursoNecessario) {
+        this.recursoNecessario = recursoNecessario;
+    }
+
+    public boolean isJaUsouRecurso() {
+        return jaUsouRecurso;
+    }
+
+    public void setJaUsouRecurso(boolean jaUsouRecurso) {
+        this.jaUsouRecurso = jaUsouRecurso;
     }
 }
 

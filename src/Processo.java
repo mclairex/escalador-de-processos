@@ -1,19 +1,19 @@
 public class Processo {
-   private int id;
-   private String nome;
-   private int prioridade;
-   private int ciclosNecessarios;
-   private String recursoNecessario;
-   private boolean jaUsouRecurso;
+    private int id;
+    private String nome;
+    private int prioridade;
+    private int ciclosNecessarios;
+    private String recursoNecessario;
+    private boolean jaUsouRecurso;
 
-   public Processo(int id, String nome, int prioridade, int ciclosNecessarios, boolean jaUsouRecurso) {
-       this.id = id;
-       this.nome = nome;
-       this.prioridade = prioridade;
-       this.ciclosNecessarios = ciclosNecessarios;
-       this.recursoNecessario = null; 
-       this.jaUsouRecurso = jaUsouRecurso; 
-   }
+    public Processo(int id, String nome, int prioridade, int ciclosNecessarios, boolean jaUsouRecurso) {
+        this.id = id;
+        this.nome = nome;
+        this.prioridade = prioridade;
+        this.ciclosNecessarios = ciclosNecessarios;
+        this.recursoNecessario = null;
+        this.jaUsouRecurso = jaUsouRecurso;
+    }
 
     public int getId() {
         return id;
@@ -26,7 +26,7 @@ public class Processo {
     public String getNome() {
         return nome;
     }
-    
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -43,8 +43,8 @@ public class Processo {
         return ciclosNecessarios;
     }
 
-    public void setCiclosNecessarios(int ciclosNecessarios) {
-        this.ciclosNecessarios = ciclosNecessarios;
+    public void setCiclosNecessarios(int ciclos) {
+        this.ciclosNecessarios = ciclos;
     }
 
     public String getRecursoNecessario() {
@@ -59,8 +59,23 @@ public class Processo {
         return jaUsouRecurso;
     }
 
+
     public void setJaUsouRecurso(boolean jaUsouRecurso) {
         this.jaUsouRecurso = jaUsouRecurso;
+    }
+
+
+    public String getPrioridadeNome() {
+        switch (prioridade) {
+            case 1:
+                return "ALTA";
+            case 2:
+                return "MÉDIA";
+            case 3:
+                return "BAIXA";
+            default:
+                return "DESCONHECIDA";
+        }
     }
 }
 

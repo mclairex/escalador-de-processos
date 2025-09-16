@@ -6,76 +6,39 @@ public class Processo {
     private String recursoNecessario;
     private boolean jaUsouRecurso;
 
-    public Processo(int id, String nome, int prioridade, int ciclosNecessarios, boolean jaUsouRecurso) {
+    // Construtor principal usado na leitura do arquivo
+    public Processo(int id, String nome, int prioridade, int ciclosNecessarios, String recursoNecessario) {
         this.id = id;
         this.nome = nome;
         this.prioridade = prioridade;
         this.ciclosNecessarios = ciclosNecessarios;
-        this.recursoNecessario = null;
-        this.jaUsouRecurso = jaUsouRecurso;
+        this.recursoNecessario = (recursoNecessario == null || recursoNecessario.trim().isEmpty()) ? null : recursoNecessario.trim();
+        this.jaUsouRecurso = false;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getPrioridade() {
-        return prioridade;
-    }
-
-    public void setPrioridade(int prioridade) {
-        this.prioridade = prioridade;
-    }
-
-    public int getCiclosNecessarios() {
-        return ciclosNecessarios;
-    }
-
-    public void setCiclosNecessarios(int ciclos) {
-        this.ciclosNecessarios = ciclos;
-    }
-
-    public String getRecursoNecessario() {
-        return recursoNecessario;
-    }
-
-    public void setRecursoNecessario(String recursoNecessario) {
-        this.recursoNecessario = recursoNecessario;
-    }
-
-    public boolean isJaUsouRecurso() {
-        return jaUsouRecurso;
-    }
-
-
-    public void setJaUsouRecurso(boolean jaUsouRecurso) {
-        this.jaUsouRecurso = jaUsouRecurso;
-    }
-
+    // Getters / setters usados pelo Scheduler
+    public int getId() { return id; }
+    public String getNome() { return nome; }
+    public int getPrioridade() { return prioridade; }
+    public int getCiclosNecessarios() { return ciclosNecessarios; }
+    public void setCiclosNecessarios(int ciclos) { this.ciclosNecessarios = ciclos; }
+    public String getRecursoNecessario() { return recursoNecessario; }
+    public boolean isJaUsouRecurso() { return jaUsouRecurso; }
+    public void setJaUsouRecurso(boolean jaUsouRecurso) { this.jaUsouRecurso = jaUsouRecurso; }
 
     public String getPrioridadeNome() {
         switch (prioridade) {
-            case 1:
-                return "ALTA";
-            case 2:
-                return "MÉDIA";
-            case 3:
-                return "BAIXA";
-            default:
-                return "DESCONHECIDA";
+            case 1: return "ALTA";
+            case 2: return "MÉDIA";
+            case 3: return "BAIXA";
+            default: return "DESCONHECIDA";
         }
     }
-}
 
+    @Override
+    public String toString() {
+        return "P" + id + " (" + nome + ") - Prioridade: " + getPrioridadeNome() +
+                ", Ciclos: " + ciclosNecessarios +
+                (recursoNecessario != null ? ", Recurso: " + recursoNecessario : "");
+    }
+}

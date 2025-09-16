@@ -1,0 +1,6 @@
+1,Processo_ALTA_1,1,3,DISCO
+2,Processo_MEDIA_1,2,4,
+3,Processo_BAIXA_1,3,2,IMPRESSORA
+4,Processo_ALTA_2,1,5,
+5,Processo_MEDIA_2,2,3,DISCO
+6,Processo_BAIXA_2,3,1,

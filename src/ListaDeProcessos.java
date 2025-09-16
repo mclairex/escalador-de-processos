@@ -1,82 +1,76 @@
 public class ListaDeProcessos {
-    private NodeProcesso cabeca; 
-    private NodeProcesso cauda;  
-    private int tamanho;
+    private No primeiro;
+    private No ultimo;
+    private int tamanho; // mantém o contador atualizado (O(1) para getTamanho)
 
+    // Classe interna Nó (representa cada elemento da lista)
+    private static class No {
+        Processo processo;
+        No proximo;
+
+        No(Processo processo) {
+            this.processo = processo;
+            this.proximo = null;
+        }
+    }
+
+    // Construtor
     public ListaDeProcessos() {
-        this.cabeca = null;
-        this.cauda = null;
+        this.primeiro = null;
+        this.ultimo = null;
         this.tamanho = 0;
     }
 
-    public void adicionar(Processo processo) {
-        NodeProcesso novo = new NodeProcesso(processo);
-        if (cabeca == null) {
-            cabeca = novo;
-            cauda = novo;
-            cauda.setProximo(cabeca);
+    // Adiciona no final da lista (para simular fila)
+    public void adicionarNoFinal(Processo processo) {
+        No novo = new No(processo);
+        if (estaVazia()) {
+            primeiro = novo;
+            ultimo = novo;
         } else {
-            cauda.setProximo(novo);
-            cauda = novo;
-            cauda.setProximo(cabeca);
+            ultimo.proximo = novo;
+            ultimo = novo;
         }
         tamanho++;
     }
 
+    // Remove e retorna o primeiro processo (início da fila)
+    public Processo removerDoInicio() {
+        if (estaVazia()) return null;
 
-        public boolean remover(int id) {
-        if (cabeca == null) return false;
-
-        NodeProcesso atual = cabeca;
-        NodeProcesso anterior = cauda;
-
-        do {
-            if (atual.getProcesso().getId() == id) {
-                if (atual == cabeca) {
-                    cabeca = cabeca.getProximo();
-                    cauda.setProximo(cabeca);
-                } else if (atual == cauda) {
-                    cauda = anterior;
-                    cauda.setProximo(cabeca);
-                } else {
-                    anterior.setProximo(atual.getProximo());
-                }
-                tamanho--;
-                if (tamanho == 0) {
-                    cabeca = null;
-                    cauda = null;
-                }
-                return true;
-            }
-            anterior = atual;
-            atual = atual.getProximo();
-        } while (atual != cabeca);
-
-        return false;
-    }
-
-    public void listar() {
-        if (cabeca == null) {
-            System.out.println("Lista vazia!");
-            return;
+        Processo processo = primeiro.processo;
+        primeiro = primeiro.proximo;
+        if (primeiro == null) { // lista ficou vazia
+            ultimo = null;
         }
-
-        NodeProcesso atual = cabeca;
-        do {
-            System.out.println(atual.getProcesso());
-            atual = atual.getProximo();
-        } while (atual != cabeca);
+        tamanho--;
+        return processo;
     }
 
+    // Verifica se a lista está vazia
+    public boolean estaVazia() {
+        return primeiro == null;
+    }
+
+    // Retorna o tamanho da lista
     public int getTamanho() {
         return tamanho;
     }
 
-    public boolean estaVazia() {
-        return tamanho == 0;
-    }
-
-    public NodeProcesso getCabeca() {
-        return cabeca;
+    // Retorna uma representação em string da lista
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        No atual = primeiro;
+        while (atual != null) {
+            sb.append(atual.processo.getNome());
+            if (atual.proximo != null) {
+                sb.append(" -> ");
+            }
+            atual = atual.proximo;
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
+

@@ -7,19 +7,7 @@ public class NodeProcesso {
         this.proximo = null;
     }
 
-    public Processo getProcesso() {
-        return processo;
-    }
-
-    public void setProcesso(Processo processo) {
-        this.processo = processo;
-    }
-
-    public NodeProcesso getProximo() {
-        return proximo;
-    }
-
-    public void setProximo(NodeProcesso proximo) {
-        this.proximo = proximo;
-    }
+    public Processo getProcesso() { return processo; }
+    public NodeProcesso getProximo() { return proximo; }
+    public void setProximo(NodeProcesso proximo) { this.proximo = proximo; }
 }

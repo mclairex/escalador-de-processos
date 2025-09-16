@@ -123,7 +123,7 @@ public class Scheduler {
 
     private void executarProcesso(Processo processo) {
         // Verificar se precisa de recurso pela primeira vez
-        if (processo.getRecursosNecessarios() != null && !processo.isJaUsouRecurso()) {
+        if (processo.getRecursoNecessario() != null && !processo.isJaUsouRecurso()) {
             // Primeira vez que solicita o recurso - bloquear
             processo.setJaUsouRecurso(true);
             listaBloqueados.adicionarNoFinal(processo);
@@ -132,12 +132,12 @@ public class Scheduler {
         }
 
         // Executar processo (diminui ciclos necessários)
-        processo.ciclosNecessarios--;
+        processo.setCiclosNecessarios(processo.getCiclosNecessarios() - 1);
         System.out.println("⚡ Processo executado: " + processo);
 
         // Verificar se o processo terminou
-        if (processo.ciclosNecessarios == 0) {
-            System.out.println(" Processo finalizado: P" + processo.id + " (" + processo.nome + ")");
+        if (processo.getCiclosNecessarios() == 0) {
+            System.out.println(" Processo finalizado: P" + processo.getId() + " (" + processo.getNome() + ")");
         } else {
             // Processo não terminou - reinserir no final da lista original
             switch(processo.getPrioridade()) {

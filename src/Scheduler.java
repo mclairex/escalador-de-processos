@@ -17,7 +17,7 @@ public class Scheduler {
     }
 
     public void adicionarProcesso(Processo processo) {
-        switch(processo.prioridade) {
+        switch(processo.getPrioridade()) {
             case 1: // Alta prioridade
                 listaAltaPrioridade.adicionarNoFinal(processo);
                 break;
@@ -28,7 +28,7 @@ public class Scheduler {
                 listaBaixaPrioridade.adicionarNoFinal(processo);
                 break;
             default:
-                System.out.println(" Prioridade inválida para processo P" + processo.id);
+                System.out.println(" Prioridade inválida para processo P" + processo.getId());
         }
     }
 
@@ -123,7 +123,7 @@ public class Scheduler {
 
     private void executarProcesso(Processo processo) {
         // Verificar se precisa de recurso pela primeira vez
-        if (processo.recursoNecessario != null && !processo.jaUsouRecurso) {
+        if (processo.getRecursosNecessarios() != null && !processo.jaUsouRecurso) {
             // Primeira vez que solicita o recurso - bloquear
             processo.jaUsouRecurso = true;
             listaBloqueados.adicionarNoFinal(processo);
@@ -171,6 +171,26 @@ public class Scheduler {
                 !listaMediaPrioridade.isEmpty() ||
                 !listaBaixaPrioridade.isEmpty() ||
                 !listaBloqueados.isEmpty();
+    }
+
+    public void executarSimulacao() {
+        System.out.println("Iniciando simulação do escalonador...\n");
+
+        // AQUI ESTÁ O LOOP PRINCIPAL QUE FALTAVA NO SEU CÓDIGO!
+        while (temProcessos()) {
+            executarCicloDeCPU(); // Chama seu método que executa 1 ciclo
+
+            // Pequena pausa para melhor visualização (opcional)
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+
+        System.out.println("\nESCALONAMENTO FINALIZADO - Todos os processos foram executados!");
+        System.out.println("Total de ciclos executados: " + cicloAtual);
     }
 
     // Getters para que outros membros possam acessar as listas (se necessário)

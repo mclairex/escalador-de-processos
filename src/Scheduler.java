@@ -60,7 +60,7 @@ public class Scheduler {
             Processo processo = listaBloqueados.removerDoInicio();
 
             // Adiciona de volta ao final da sua lista de prioridade original
-            switch(processo.prioridade) {
+            switch(processo.getPrioridade()) {
                 case 1:
                     listaAltaPrioridade.adicionarNoFinal(processo);
                     break;
@@ -123,11 +123,11 @@ public class Scheduler {
 
     private void executarProcesso(Processo processo) {
         // Verificar se precisa de recurso pela primeira vez
-        if (processo.getRecursosNecessarios() != null && !processo.jaUsouRecurso) {
+        if (processo.getRecursosNecessarios() != null && !processo.isJaUsouRecurso()) {
             // Primeira vez que solicita o recurso - bloquear
-            processo.jaUsouRecurso = true;
+            processo.setJaUsouRecurso(true);
             listaBloqueados.adicionarNoFinal(processo);
-            System.out.println(" Processo bloqueado por recurso " + processo.recursoNecessario + ": " + processo);
+            System.out.println(" Processo bloqueado por recurso " + processo.getRecursoNecessario() + ": " + processo);
             return;
         }
 
@@ -140,7 +140,7 @@ public class Scheduler {
             System.out.println(" Processo finalizado: P" + processo.id + " (" + processo.nome + ")");
         } else {
             // Processo não terminou - reinserir no final da lista original
-            switch(processo.prioridade) {
+            switch(processo.getPrioridade()) {
                 case 1:
                     listaAltaPrioridade.adicionarNoFinal(processo);
                     break;

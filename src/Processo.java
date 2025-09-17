@@ -8,6 +8,11 @@ public class Processo {
 
     // Construtor principal usado na leitura do arquivo
     public Processo(int id, String nome, int prioridade, int ciclosNecessarios, String recursoNecessario) {
+
+        if (prioridade < 1 || prioridade > 3) {
+            throw new IllegalArgumentException("Prioridade Inválida: " + prioridade + ". Use 1 (Alta), 2 (Média) ou 3 (Baixa).");
+        }
+
         this.id = id;
         this.nome = nome;
         this.prioridade = prioridade;

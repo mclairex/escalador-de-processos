@@ -3,6 +3,7 @@ public class ListaDeProcessos {
     private No ultimo;
     private int tamanho;
 
+    
     private static class No {
         Processo processo;
         No proximo;
@@ -13,6 +14,7 @@ public class ListaDeProcessos {
         }
     }
 
+    //Inicializa a lista como vazia
     public ListaDeProcessos() {
         this.primeiro = null;
         this.ultimo = null;
@@ -51,6 +53,7 @@ public class ListaDeProcessos {
         return tamanho;
     }
 
+    //Retorna uma representação em string da lista
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");

@@ -65,57 +65,38 @@ Linhas vazias ou comentários (`#`) são ignorados.
 
 ---
 
-## 4. Como Compilar e Executar
+## 4. Como Executar no IntelliJ IDEA
 
-### 4.1 Compilação
+Siga estes passos para rodar o projeto sem usar linha de comando:
 
-No terminal, dentro da pasta do projeto, execute:
+### Passo 1: Abrir o projeto
+- Abra o IntelliJ IDEA.
+- Vá em **File → Open** e selecione a pasta do projeto.
+- Abra o arquivo **src/App.java**.
 
-```bash
-javac *.java
-```
-Isso compilará todas as classes Java do projeto.
+### Passo 2: Executar
+- Clique no ícone **Run** (triângulo verde) ou use **Run → Run 'App'**.
+- Para depuração, use **Run → Debug 'App'**.
 
-### 4.2 Execução
+### Passo 3: Passar parâmetros (opcional)
+- Clique em **Run → Edit Configurations…**
+- Em **Program arguments**, adicione:
+## 4. Como Executar no IntelliJ IDEA
 
-O programa pode ser executado via linha de comando:
+Siga estes passos para rodar o projeto sem usar linha de comando:
 
-```bash
-java App [caminhoArquivo] [verbose]
-```
+### Passo 1: Abrir o projeto
+- Abra o IntelliJ IDEA.
+- Vá em **File → Open** e selecione a pasta do projeto.
+- Abra o arquivo **src/App.java**.
 
-Parâmetros opcionais:
+### Passo 2: Executar
+- Clique no ícone **Run** (triângulo verde) ou use **Run → Run 'App'**.
+- Para depuração, use **Run → Debug 'App'**.
 
-caminhoArquivo : caminho para o arquivo de processos (default: processos.txt)
-
-verbose : força modo verboso (verbose) para exibir todos os logs detalhados durante a execução
-
-### 4.3 Exemplos de execução
-
-Executar com o arquivo padrão e modo automático:
-
-```bash
-java App
-```
-
-Executar com um arquivo específico e modo verboso:
-
-```bash
-java App processos_3000.txt verbose
-```
-
-Executar com arquivo específico e modo compacto (não verbose):
-
-```bash
-java App processos_3000.txt
-```
-
-### 4.4 Observações
-
-Se o número de processos no arquivo for muito grande (> 5000), o modo verboso é automaticamente desativado para melhorar a performance.
-
-O programa exibirá no console informações sobre ciclos de execução, processos bloqueados, desbloqueios e finalização dos processos.
----
+### Passo 3: Passar parâmetros (opcional)
+- Clique em **Run → Edit Configurations…**
+- Em **Program arguments**, adicione:
 
 ## 5. Saída Esperada
 

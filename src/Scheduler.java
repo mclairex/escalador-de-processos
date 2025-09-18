@@ -45,27 +45,28 @@ public class Scheduler {
 
     private boolean temProcessos() {
         return !listaAltaPrioridade.estaVazia()
-            || !listaMediaPrioridade.estaVazia()
-            || !listaBaixaPrioridade.estaVazia()
-            || !listaBloqueados.estaVazia();
+                || !listaMediaPrioridade.estaVazia()
+                || !listaBaixaPrioridade.estaVazia()
+                || !listaBloqueados.estaVazia();
     }
 
     private void executarCicloDeCPU(StringBuilder log) {
         cicloAtual++;
         if (verbose) log.append("\n=== CICLO ").append(cicloAtual).append(" ===\n");
 
-        desbloquearProcessoMaisAntigo(log);
         mostrarEstadoDasListas(log);
+
+        desbloquearProcessoMaisAntigo(log);
 
         if (contadorCiclosAltaPrioridade >= 5) {
             if (verbose) log.append("⚠ PREVENÇÃO DE INANIÇÃO ATIVADA!\n");
             executarProcessoMediaOuBaixa(log);
             contadorCiclosAltaPrioridade = 0;
-            return;
+        } else {
+            executarProximoProcessoDisponivel(log);
         }
-
-        executarProximoProcessoDisponivel(log);
     }
+
 
     private void desbloquearProcessoMaisAntigo(StringBuilder log) {
         if (!listaBloqueados.estaVazia()) {
@@ -105,21 +106,31 @@ public class Scheduler {
     }
 
     private void executarProcesso(Processo p, StringBuilder log) {
-        if (p.getRecursoNecessario() != null && !p.isJaUsouRecurso()) {
-            p.setJaUsouRecurso(true);
-            listaBloqueados.adicionarNoFinal(p);
-            if (verbose) log.append("⛔ Bloqueado: P").append(p.getId())
-                           .append(" por ").append(p.getRecursoNecessario()).append("\n");
-            return;
+        // Verifica se o processo precisa de recurso e ainda não usou
+        if (p.getRecursoNecessario() != null && !p.getRecursoNecessario().isEmpty() && !p.isJaUsouRecurso()) {
+            p.setJaUsouRecurso(true);               // Marca que já tentou usar o recurso
+            listaBloqueados.adicionarNoFinal(p);     // Coloca no final da lista de bloqueados
+            if (verbose) log.append("⛔ Bloqueado: P")
+                    .append(p.getId())
+                    .append(" por ")
+                    .append(p.getRecursoNecessario())
+                    .append("\n");
+            return; // ⚠ Não decrementa ciclos na primeira vez
         }
 
+        // Executa o processo (decrementa ciclos)
         p.setCiclosNecessarios(p.getCiclosNecessarios() - 1);
-        if (verbose) log.append("⚡ Executado: P").append(p.getId())
-                       .append(" | ciclos restantes: ").append(p.getCiclosNecessarios()).append("\n");
+        if (verbose) log.append("⚡ Executado: P")
+                .append(p.getId())
+                .append(" | ciclos restantes: ")
+                .append(p.getCiclosNecessarios())
+                .append("\n");
 
+        // Se finalizou
         if (p.getCiclosNecessarios() == 0) {
             if (verbose) log.append("✅ Finalizado: P").append(p.getId()).append("\n");
         } else {
+            // Reinsere no final da lista de prioridade original
             switch(p.getPrioridade()) {
                 case 1 -> listaAltaPrioridade.adicionarNoFinal(p);
                 case 2 -> listaMediaPrioridade.adicionarNoFinal(p);
@@ -127,6 +138,7 @@ public class Scheduler {
             }
         }
     }
+
 
     private void executarProcessoMediaOuBaixa(StringBuilder log) {
         Processo p = null;
@@ -146,18 +158,18 @@ public class Scheduler {
         }
 
         if (verbose) log.append("Executando (anti-inanição) da ").append(origem)
-                       .append(": P").append(p.getId()).append("\n");
+                .append(": P").append(p.getId()).append("\n");
         executarProcesso(p, log);
     }
 
     private void mostrarEstadoDasListas(StringBuilder log) {
         if (verbose) {
             log.append("Resumo: Alta=").append(listaAltaPrioridade.getTamanho())
-               .append(" | Média=").append(listaMediaPrioridade.getTamanho())
-               .append(" | Baixa=").append(listaBaixaPrioridade.getTamanho())
-               .append(" | Bloqueados=").append(listaBloqueados.getTamanho())
-               .append(" | ContadorAlta=").append(contadorCiclosAltaPrioridade)
-               .append("\n");
+                    .append(" | Média=").append(listaMediaPrioridade.getTamanho())
+                    .append(" | Baixa=").append(listaBaixaPrioridade.getTamanho())
+                    .append(" | Bloqueados=").append(listaBloqueados.getTamanho())
+                    .append(" | ContadorAlta=").append(contadorCiclosAltaPrioridade)
+                    .append("\n");
         }
     }
 
